@@ -10,8 +10,14 @@ export interface SetupWorkerInternalContext {
   worker: ServiceWorker | null
   registration: ServiceWorkerRegistration | null
   requestHandlers: RequestHandler<any, any>[]
-  listeners: MSWEventListener[]
-  removeAllListeners: () => void
+  events: {
+    add: (
+      handler: ServiceWorkerContainer | Window,
+      type: string,
+      listener: any,
+    ) => void
+    removeAllListeners: () => void
+  }
 }
 
 export type ServiceWorkerInstanceTuple = [
