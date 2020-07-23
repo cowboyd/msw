@@ -2,7 +2,6 @@ import { HeadersList } from 'headers-utils'
 import { RequestHandler } from '../handlers/requestHandler'
 import { MockedResponse } from '../response'
 import { SharedOptions } from '../sharedOptions'
-import { MSWEventListener } from '../utils/internal/mswEventListener'
 
 export type Mask = RegExp | string
 
@@ -10,14 +9,12 @@ export interface SetupWorkerInternalContext {
   worker: ServiceWorker | null
   registration: ServiceWorkerRegistration | null
   requestHandlers: RequestHandler<any, any>[]
-  events: {
-    add: (
-      handler: ServiceWorkerContainer | Window,
-      type: string,
-      listener: any,
-    ) => void
-    removeAllListeners: () => void
-  }
+  addEventListener<E extends Event>(
+    target: EventTarget,
+    type: string,
+    listener: (event: E) => void,
+  ): void
+  removeAllEventListeners(): void
 }
 
 export type ServiceWorkerInstanceTuple = [
